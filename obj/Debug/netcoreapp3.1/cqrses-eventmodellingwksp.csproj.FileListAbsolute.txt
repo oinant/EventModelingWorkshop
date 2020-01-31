@@ -1,0 +1,11 @@
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\bin\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.exe
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\bin\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.deps.json
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\bin\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.runtimeconfig.json
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\bin\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.runtimeconfig.dev.json
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\bin\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.dll
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\bin\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.pdb
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\obj\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.csprojAssemblyReference.cache
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\obj\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.AssemblyInfoInputs.cache
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\obj\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.AssemblyInfo.cs
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\obj\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.dll
+C:\Users\antoine.sauvinet\source\repos\cqrses-eventmodellingwksp\obj\Debug\netcoreapp3.1\cqrses-eventmodellingwksp.pdb
