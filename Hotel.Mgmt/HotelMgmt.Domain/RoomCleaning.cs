@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using HotelMgmt.Domain.Abstractions;
 using HotelMgmt.Domain.CleaningRequest;
 
 namespace HotelMgmt.Domain
 {
 
-    public class Room : Aggregate
+    public class RoomCleaning : Aggregate
     {
-        public int Id { get; }
-
         public string RequestedBy { get; set; }
+        //public int RoomNumber { get; set; }
 
-
-        public Room(IList<IEvent> events) : base(events) { }
+        public RoomCleaning(EventStream events) : base(events) { }
 
         public void RequestCleaning(in DateTime requestedAt)
         {
@@ -34,4 +33,6 @@ namespace HotelMgmt.Domain
 
 
     }
+
+
 }

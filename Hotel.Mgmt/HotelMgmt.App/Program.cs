@@ -1,9 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using HotelMgmt.Domain;
+using System.Linq;
+using EventStore.ClientAPI.SystemData;
+using HotelMgmt.Domain.Abstractions;
 using HotelMgmt.Domain.CleaningRequest;
+using HotelMgmt.Domain.Rooms;
 using HotelMgmt.Infrastructure;
+using HotelMgmt.Infrastructure.Core;
+using HotelMgmt.Infrastructure.Core.EventStore;
 using HotelMgmt.Projections;
+
+
 
 namespace HotelMgmt
 {
@@ -11,53 +18,57 @@ namespace HotelMgmt
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            CompositionRoot.Bootstrap();
+            Console.WriteLine("Generating the commands");
 
-            var myCommand = new CleaningRequestCommand() { RequestedAt = DateTime.UtcNow, RoomId = 12 };
+            var rooms = new RoomReferential();
+            var commands = new List<ICommand>();
+            var rounds = 1;
+            var roomsCount = 1;
+            //var roomsCount = rooms.Count();
+            for (int round = 1; round <= rounds; round++)
+            {
+                commands.AddRange(
+                    Enumerable.Range(1, roomsCount)
+                    .Select( roomNumber => new CleaningRequestCommand() {RequestedAt = DateTime.UtcNow, RoomId = rooms.GetByNumber(roomNumber).Id})
+                    );
+            }
 
-            CompositionRoot.DispatchCommand(myCommand);
+
+            Console.WriteLine("Dispatching the commands");
+            foreach (var command in commands)
+            {
+                CompositionRoot.DispatchCommand(command);
+            }
+            
 
             Console.ReadLine();
+
+         
         }
     }
 
-
-
     public static class CompositionRoot
     {
-        private static RoomRepository _roomRepo;
-        private static IDispatchCommands _commandDispatcher;
-
-        public static void Bootstrap()
+        private static readonly IDispatchCommands CommandDispatcher;
+        static CompositionRoot()
         {
             var eventDispatcher = new LocalEventDispatcher();
-            //var eventStore = new InMemoryEventStore(eventDispatcher);
-            var eventStore = new ActualEventStore(eventDispatcher);
-            
-            _roomRepo = new RoomRepository(eventStore);
+            var eventStore = new ActualEventStore(
+                                                    eventDispatcher, 
+                                                    new EventSerializer(),
+                                                    new UserCredentials("admin", "changeit"));
 
-            eventDispatcher.Subscribe(new CleaningRequestReportMessageHandler(), typeof(CleaningRequested));
+            var roomRepo = new RoomRepository(eventStore);
 
-            //_commandDispatcher = new SingleProcessCommandDispatcher();
-            
-            //var casted = (IHandleCommand<ICommand>) new CleaningRequestHandler(_roomRepo);
-            //_commandDispatcher.Subscribe(casted, typeof(CleaningRequestCommand));
+            eventDispatcher.Subscribe(new CleaningRequestReportMessageHandler());
+
+            CommandDispatcher = new SingleProcessCommandDispatcher();
+            CommandDispatcher.Subscribe(new CleaningRequestHandler(roomRepo));
         }
 
         public static void DispatchCommand(ICommand command)
         {
-            //_commandDispatcher.Dispatch(command);
-            var handler = GetHandler();
-            handler.Handle((CleaningRequestCommand)command);
+            CommandDispatcher.Dispatch(command);
         }
-
-        public static CleaningRequestHandler GetHandler()
-        {
-            return new CleaningRequestHandler(_roomRepo);
-        }
-
     }
-
-
 }

@@ -1,18 +1,15 @@
 ﻿using System;
-using HotelMgmt.Domain;
 using HotelMgmt.Domain.CleaningRequest;
-using HotelMgmt.Infrastructure;
+using HotelMgmt.Infrastructure.Core;
 
 namespace HotelMgmt.Projections
 {
-    public class CleaningRequestReportMessageHandler : IHandleEvents
+    public class CleaningRequestReportMessageHandler : IHandleEvents<CleaningRequested>
     {
-        public void HandleEvent(IEvent @event)
+        public void HandleEvent(CleaningRequested @event)
         {
             Console.WriteLine($"I got event! : ");
-            var castedEvent = (CleaningRequested) @event;
-
-            Console.WriteLine($"[room : {castedEvent.RoomNumber}, requester : {castedEvent.RoomNumber}]");
+            Console.WriteLine($"[room : {@event.RoomNumber}, requester : {@event.RoomNumber}]");
         }
     }
 }
